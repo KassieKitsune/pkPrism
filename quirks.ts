@@ -1,4 +1,3 @@
-import { lutimes } from "node:fs"
 import { settings } from "."
 import { membersByProxy, proxiesByMember, storedSystem } from "./SystemStore"
 import { ProxyTag, Switch, System, Member as pkMember } from "pkapi.js"
@@ -85,7 +84,7 @@ export async function populateQuirks(){
     var quirkStrSplit = settings.store.typingQuirkJson.split("\n")
     quirkStrSplit.forEach((quirk) => {
         var keySplit = quirk.split("=>")
-        quirkMap.set(keySplit[0],keySplit[1])
+        quirkMap.set(keySplit[0].trim(),keySplit[1].trim())
     })
 }
 
