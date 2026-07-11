@@ -31,6 +31,7 @@ const frontActivity :Activity = {
     details:"via pkPrism",
     state_url:"https://github.com/KassieKitsune/pkPrism",
     state:"system",
+    timestamps:{start:0}
 }
 
 const frontActivityCovert :Activity = {
@@ -57,7 +58,7 @@ export async function updateFrontActivity(systemID:string=UserStore.getCurrentUs
     const m :pkMember | undefined | string = sw?.members?.values().next().value;
 
     //console.log(sys)
-    //console.log(sw)
+    console.log(sw)
     //console.log(m)
 
     if (m === undefined){
@@ -88,12 +89,14 @@ async function createCovertAct(m:pkMember){
         frontActivityCovert.name = "I ♥️ " + m.display_name}
     return structuredClone(frontActivityCovert)
 }
-async function createActivity(m:pkMember,sys:System,time){
+async function createActivity(m:pkMember,sys:System,time:string){
     frontActivity.name = m?.name
     if (settings.store.presenceDisplayName && m.display_name !== "" && m.display_name !== undefined && m.display_name !== null){
         frontActivity.name = m?.display_name;
     }
     frontActivity.details = sys?.name;
+
+    frontActivity.timestamps.start = Date.parse(time)
 
     frontActivity.state = "Via pkPrism";
     if (settings.store.showPronounsInRichPresence){frontActivity.name = frontActivity.name+"("+m?.pronouns +")"};
@@ -102,7 +105,7 @@ async function createActivity(m:pkMember,sys:System,time){
     fronterAssets.large_url = "https://dash.pluralkit.me/profile/m/"+m?.id;
     return structuredClone(frontActivity)
 }
-async function createCustomAct(m:pkMember,sys:System,time){
+async function createCustomAct(m:pkMember,sys:System,time:string){
     frontActivity.name = replacePresenceString(settings.store.presenceName,m,sys)
     frontActivity.details = replacePresenceString(settings.store.presenceDetail,m,sys)
     frontActivity.details_url = replacePresenceString(settings.store.presenceDetailLink,m,sys)
@@ -110,6 +113,7 @@ async function createCustomAct(m:pkMember,sys:System,time){
     frontActivity.state_url = replacePresenceString(settings.store.presenceStateLink,m,sys)
     fronterAssets.large_image = await getApplicationAsset(m.avatar_url)
     fronterAssets.large_url = replacePresenceString(settings.store.presenceImageLink,m,sys)
+    frontActivity.timestamps.start = Date.parse(time)
     return structuredClone(frontActivity)
 }
 
