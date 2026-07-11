@@ -26,7 +26,7 @@ import { Member as pkMember, Switch, System } from "pkapi.js";
 
 import { updateMessage } from "@api/MessageUpdater";
 
-import { applyQuirk, populateQuirks, quirkifyText, quirkMap, Quirks, setQuirkMap, TypingQuirk } from "./quirks";
+import { applyQuirk, populateQuirks, quirkifyText, quirkMap, Quirks, QuirkMap, TypingQuirk } from "./quirks";
 import { updateFrontActivity } from "./fronterRPC";
 import { getSystemData, storedProxies, storedSystem } from "./SystemStore";
 
@@ -104,6 +104,7 @@ export const settings = definePluginSettings({
         default:false
     },
     presenceDisplayName:{
+        displayName:"Use Display Name in Presence",
         description:"If true use the fronter's displayname instead of their name (if set)",
         type:OptionType.BOOLEAN,
         default:true
@@ -345,14 +346,14 @@ function adjustColor(color:string,saturation:number=-1,minL:number=settings.stor
 }
 
 function hslToHex(h, s, l) {
-  l /= 100;
-  const a = s * Math.min(l, 1 - l) / 100;
-  const f = n => {
+    l /= 100;
+    const a = s * Math.min(l, 1 - l) / 100;
+    const f = n => {
     const k = (n + h / 30) % 12;
     const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
     return Math.round(255 * color).toString(16).padStart(2, '0');   // convert to Hex and prefix "0" if needed
-  };
-  return `${f(0)}${f(8)}${f(4)}`;
+    };
+    return `${f(0)}${f(8)}${f(4)}`;
 }
 
 // what a coincidence that pk member IDs are 6 letters long

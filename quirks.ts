@@ -22,8 +22,9 @@ export const Quirks = {
         translate:true,
         func: (input:string) => {
             var result: string = ""
-            for (var i = 0; i < input.length; i++){
-                result += input.charCodeAt(i).toString(16) + " "
+            var trimput = input.trim()
+            for (var i = 0; i < trimput.length; i++){
+                result += trimput.charCodeAt(i).toString(16) + " "
             }
             return result
         }
