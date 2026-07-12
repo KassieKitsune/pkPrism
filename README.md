@@ -9,7 +9,6 @@ This option is recommended if you have a comfortable relationship to your system
 #### Step 1. Follow the Instructions on [installing Vencord from source](https://docs.vencord.dev/installing/)
 <details>
 
-
 0. Open your terminal/commmand prompt. 
     -On Windows we reccomend command prompt(cmd) over Powershell 
         -if something goes wrong in this step anyways, follow these instructions with your command prompt open in Administrator Mode
@@ -88,22 +87,25 @@ pnpm install -g pkapi.js
 
 ## Option B: using [Veskforge](https://github.com/Microck/veskforge)
 This option is recommended if you have not yet gotten to know your terminal and are still working up the courage to ask it out. <details>
-#### Step 1. Install [Node.js](https://nodejs.org/en/download/), [Git](https://git-scm.com/) & [pkapi.js](https://github.com/greys-tools/pkapi.js#installation)
-- For [pkapi.js](https://github.com/greys-tools/pkapi.js#installation), you can install it by by running ```npm install -g pkapi.js``` in your terminal/command line. This should be the only console command necessary for this method.
+#### Step 1. Install [Node.js](https://nodejs.org/en/download/) & [Git](https://git-scm.com/)
+- You should be able to download installers for each at the locations linked above.
 
-#### Step 2. Install [Veskforge](https://github.com/Microck/veskforge/releases)
+#### Step 2. Install [pkapi.js](https://github.com/greys-tools/pkapi.js#installation)
+- Open a terminal/command prompt and run ```npm install -g pkapi.js``` in your terminal/command line. This should be the only console command necessary for this method. If it does not work, go back to step 1.
+
+#### Step 3. Install [Veskforge](https://github.com/Microck/veskforge/releases)
 - If you are not already using [Vesktop](https://vesktop.dev/) as your vencord client, download, install and open it before continuing
 
-#### Step 3. Add this repo as a Source in Veskforge
-- Paste ```https://github.com/KassieKitsune/pkPrism``` into the "Git Url" field when adding a git repository source to Veskforge
+#### Step 4. Add this repo as a Source in Veskforge
+- Paste ```https://github.com/KassieKitsune/pkPrism.git``` into the "Git Url" field when adding a git repository source to Veskforge
 
-#### Step 4. Build & Install Vesktop in Veskforge
-- If Vesktop is open, Veskforge should be able to detect it automatically, otherwise you may need to locate your vesktop install and input it manually.
+#### Step 5. Build & Install Vesktop in Veskforge
+- If Vesktop is open, Veskforge should be able to detect it automatically, otherwise you may need o locate your vesktop install and input it manually. If something goes wrong here, go back to step 2.
 
-> **_NOTE:_** <i>The resulting Vesktop build is a signifigantly more modded client as compared to regular Vencord, which has its own advantages but also a few drawbacks. Most notably the way it handles voice and screenshare audio can prove problematic in some cases</i>
+> **_NOTE:_** <i>Vesktop essentially runs Vencord in a custom browser container. This has its own advantages (such as never needing to re-install Vencord) but it also has a few drawbacks. Most notably the way it handles voice and screenshare audio can prove problematic in some cases</i>s
 </details>
 
-> **Updating pkPrism** If are here to update your existing pkPrism install, You can do so by simply running the build again in Veskforge, or setting up veskforge to do so automatically.
+> **Updating pkPrism** If are here to update your existing pkPrism install, You can do so by running and applying the build again in Veskforge. If that does not work, you may need to locate and delete the existing plugin folder within your Veskforge checkout location (which can be found in the "build" tab of Veskforge) OR open that folder in your terminal/command prompt and run `git pull`
 ___
 
 ### Features
@@ -129,7 +131,7 @@ Covert<br>
 Or even custom styles<br>
 ![CustomRPC](https://github.com/KassieKitsune/pkPrism/blob/master/images/JY-rich-custom.png)<br>
 
-<br>*We know that not every system is out to everybody they know on Discord - or has any need to show fronters-. As such Rich Presence is off by default*
+> **_A NOTE ON PRIVACY:_** *We know that not every system is out to everybody they know on Discord - or has any need to show fronters-. As such Rich Presence is off by default. Even when on, it abides by your Activity Privacy settings as configured in your regular Discord settings and would not show itself to anyone who would not otherwise be able to see what game you're playing or what song you're listening to*
 
 > **_NOTE:_** pkPrism is still under development, and new features are on the way, check for updates as they come!
 ___
