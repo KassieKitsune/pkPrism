@@ -16,18 +16,18 @@ This option is recommended if you have a comfortable relationship to your system
 2. Download and install [Node](https://nodejs.org/en/download/)<br>
 3. Download and install [pnpm](https://pnpm.io/installation)<br>
     - you can do this by running ```npm install -g pnpm@latest-11``` in your terminal
-4. install [pkapi.js](https://github.com/greys-tools/pkapi.js#installation)
-    - you can do this by running ```pnpm install -g pkapi.js``` in your terminal
-5. Navigate to an easily accessible directory from within your terminal<br>
+4. Navigate to an easily accessible directory from within your terminal<br>
 use the example commands bellow if you don't know where to navigate to.
     - **Windows** ```cd %USERPROFILE%\Documents``` 
     - **Linux** ```cd ~``` (You should already be in this directory)
     - **Mac** ```cd ~/Desktop```
-6. Clone Vencord, install dependencies, and create userplugins folder
+5. Clone Vencord, install dependencies, and create userplugins folder
     1. run ```git clone https://github.com/Vendicated/Vencord```
     2. run ```cd Vencord```
     3. run ```pnpm install --frozen-lockfile```
     4. run ```mkdir src\userplugins```
+6. install [pkapi.js](https://github.com/greys-tools/pkapi.js#installation)
+    - you can do this by running ```pnpm install -g pkapi.js``` in your terminal
 
 > If you used the suggested commands in substep 4, you should see a Vencord folder<br>
 **Windows** In your Documents Folder<br>
@@ -90,17 +90,17 @@ This option is recommended if you have not yet gotten to know your terminal and 
 #### Step 1. Install [Node.js](https://nodejs.org/en/download/) & [Git](https://git-scm.com/)
 - You should be able to download installers for each at the locations linked above.
 
-#### Step 2. Install [pkapi.js](https://github.com/greys-tools/pkapi.js#installation)
-- Open a terminal/command prompt and run ```npm install -g pkapi.js``` in your terminal/command line. This should be the only console command necessary for this method. If it does not work, go back to step 1.
-
-#### Step 3. Install [Veskforge](https://github.com/Microck/veskforge/releases)
+#### Step 2. Install [Veskforge](https://github.com/Microck/veskforge/releases)
 - If you are not already using [Vesktop](https://vesktop.dev/) as your vencord client, download, install and open it before continuing
 
-#### Step 4. Add this repo as a Source in Veskforge
+#### Step 3. Add this repo as a Source in Veskforge
 - Paste ```https://github.com/KassieKitsune/pkPrism.git``` into the "Git Url" field when adding a git repository source to Veskforge
 
+#### Step 4. Install [pkapi.js](https://github.com/greys-tools/pkapi.js#installation)
+- Open a terminal/command prompt and run ```npm install -g pkapi.js``` in your terminal/command line. This should be the only console command necessary for this method. If it does not work, go back to step 1.
+
 #### Step 5. Build & Install Vesktop in Veskforge
-- If Vesktop is open, Veskforge should be able to detect it automatically, otherwise you may need o locate your vesktop install and input it manually. If something goes wrong here, go back to step 2.
+- If Vesktop is open, Veskforge should be able to detect it automatically, otherwise you may need o locate your vesktop install and input it manually. If something goes wrong here, go back to step 4.
 
 > **_NOTE:_** <i>Vesktop essentially runs Vencord in a custom browser container. This has its own advantages (such as never needing to re-install Vencord) but it also has a few drawbacks. Most notably the way it handles voice and screenshare audio can prove problematic in some cases</i>s
 </details>
