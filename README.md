@@ -38,13 +38,9 @@ Inside you should find a folder called src, inside that folder should be a folde
 7.skip to step 3. **Keep your terminal open.**
 
 </details>
-        
+
 #### Step 2. Install [pkapi.js](https://github.com/greys-tools/pkapi.js#installation)<br>
 If you followed Step 1 correctly, you should be able to do this by simply copying & pasting this into your terminal. 
-```
-npm install -g pkapi.js
-```
-or
 ``` 
 pnpm install -g pkapi.js
 ``` 
@@ -90,14 +86,15 @@ This option is recommended if you have not yet gotten to know your terminal and 
 #### Step 1. Install [Node.js](https://nodejs.org/en/download/) & [Git](https://git-scm.com/)
 - You should be able to download installers for each at the locations linked above.
 
-#### Step 2. Install [Veskforge](https://github.com/Microck/veskforge/releases)
+#### Step 2. Install [Veskforge](https://github.com/Microck/veskforge/releases) & Install Missing Tools
+- Open Veskforge and go to the build tab, if you followed step 1, you should be able to click the "Install Missing Tools" button without any errors.
 - If you are not already using [Vesktop](https://vesktop.dev/) as your vencord client, download, install and open it before continuing
 
 #### Step 3. Add this repo as a Source in Veskforge
 - Paste ```https://github.com/KassieKitsune/pkPrism.git``` into the "Git Url" field when adding a git repository source to Veskforge
 
 #### Step 4. Install [pkapi.js](https://github.com/greys-tools/pkapi.js#installation)
-- Open a terminal/command prompt and run ```npm install -g pkapi.js``` in your terminal/command line. This should be the only console command necessary for this method. If it does not work, go back to step 1.
+- Open a terminal/command prompt and run ```pnpm install -g pkapi.js``` in your terminal/command line. This should be the only console command necessary for this method. If it does not work, go back to step 1.
 
 #### Step 5. Build & Install Vesktop in Veskforge
 - If Vesktop is open, Veskforge should be able to detect it automatically, otherwise you may need o locate your vesktop install and input it manually. If something goes wrong here, go back to step 4.
