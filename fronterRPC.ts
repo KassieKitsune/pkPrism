@@ -54,7 +54,7 @@ async function setActivity(activity: Activity | null) {
 export async function updateFrontActivity(systemID: string = UserStore.getCurrentUser().id, token: string = settings.store.pkToken) {
     //await getSystemData();
     const sys: System = storedSystem;
-    const sw: Switch | undefined = storedSystem.fronters;
+    const sw: Switch | undefined = storedSystem.getFronters(settings.store.pkToken);
     const m: pkMember | undefined | string = sw?.members?.values().next().value;
 
     //console.log(sys)

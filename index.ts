@@ -292,7 +292,7 @@ export default definePlugin({
 async function startup() {
     await getSystemData();
     if (settings.store.frontingPresence !== "RPCoff") {
-        await getSystemData();
+        //await getSystemData();
         updateFrontActivity();
         setInterval(() => { updateFrontActivity(); }, 300000);
     }
