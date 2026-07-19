@@ -84,10 +84,14 @@ export const Quirks = {
 };
 
 export async function populateQuirks() {
-    const parsedJSON = JSON.parse(settings.store.typingQuirkJson);
+    const rawJSON = settings.store.typingQuirkJson
+    const flatJSON = rawJSON.replace(/[\r\n\t\f\v]/g,"")
+    const parsedJSON = JSON.parse(flatJSON);
+    console.log(rawJSON)
+    console.log(flatJSON)
     console.log(parsedJSON);
     for (let key in parsedJSON) {
-        const quirk: TypingQuirk = { keyIn: "", keyOut: "", translate: true, func: substitutionQuirk };
+        const quirk: TypingQuirk = {keyIn: "", keyOut: "", translate: true, func: substitutionQuirk };
         const quirkJSON = parsedJSON[key];
         for (let k in quirkJSON) {
             if (k === "customFunction") {
@@ -102,8 +106,12 @@ export async function populateQuirks() {
             else {
                 quirk[k] = quirkJSON[k];
             }
+            console.log(applyQuirk("this is a test",quirk))
         }
+
+        quirkMap.set(key,quirk)
     }
+    console.log(quirkMap)
 }
 /*export async function populateQuirks(){
     var quirkStrSplit = settings.store.typingQuirkJson.split("\n")
@@ -115,7 +123,7 @@ export async function populateQuirks() {
 
 var autoQuirk = ""
 
-export async function quirkifyText(str:string){
+/*export async function quirkifyText(str:string){
     var quirky = str
     quirkMap.forEach((f,p) => {
         var proxySplit = p.split("text")
@@ -127,25 +135,25 @@ export async function quirkifyText(str:string){
         }
         quirkMap.set(key, quirk);
         console.log(applyQuirk("this is a test", quirk));
-    }
+    })
     console.log(quirkMap);
-    /*var quirkStrSplit = settings.store.typingQuirkJson.split("\n");
+    var quirkStrSplit = settings.store.typingQuirkJson.split("\n");
     quirkStrSplit.forEach((quirk) => {
         var keySplit = quirk.split("=>");
         quirkMap.set(keySplit[0].trim(), keySplit[1].trim());
-    });*/
-}
+    });
+}*/
 
 var autoQuirk = "";
 
 export async function quirkifyText(str: string) {
     var quirky = str;
     quirkMap.forEach((f, p) => {
+        console.log(quirkMap.get(f))
         var proxySplit = p.split("text");
-        if (str.startsWith(proxySplit[0]) && str.endsWith(proxySplit[1])) {
+        if (str.startsWith(proxySplit[0].trim()) && str.endsWith(proxySplit[1].trim())) {
             if (settings.store.typingQuirks === "TQlatch") { autoQuirk = f; }
-
-            quirky = proxySplit[0] + applyQuirk(str.replace(RegExp("^" + proxySplit[0].trim), "").replace(RegExp(proxySplit[1] + "$"), ""), quirkMap[f]) + proxySplit[1];
+            quirky = proxySplit[0] + applyQuirk(str.replace(RegExp("^" + proxySplit[0]), "").replace(RegExp(proxySplit[1] + "$"), ""), quirkMap.get(f)) + proxySplit[1];
             console.log(quirky);
         }
     });
@@ -157,7 +165,7 @@ export async function quirkifyText(str: string) {
         autoQuirk = quirkMap.get(fronterProxy);
     }
     if (quirky === str) {
-        quirky = applyQuirk(str, quirkMap[autoQuirk]);
+        quirky = applyQuirk(str, quirkMap.get(autoQuirk));
     }
     return quirky;
 }

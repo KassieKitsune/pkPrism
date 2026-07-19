@@ -228,7 +228,7 @@ export default definePlugin({
             doQuirk = null;
         }
         else {
-            addTypingQuirk(msg, Quirks.hexQuirk);
+            addTypingQuirk(msg);
         }
     },
 
@@ -293,7 +293,7 @@ async function startup() {
     //await getSystemData();
     if (settings.store.frontingPresence !== "RPCoff") {
         //await getSystemData();
-        updateFrontActivity();
+        await updateFrontActivity();
         setInterval(() => { updateFrontActivity(); }, 300000);
     }
     populateQuirks();
@@ -413,6 +413,6 @@ async function updateFrontOnMessage(msg: MessageObject) {
     }
 }
 
-async function addTypingQuirk(msg: MessageObject, quirk: TypingQuirk) {
+async function addTypingQuirk(msg: MessageObject) {
     msg.content = await quirkifyText(msg.content);
 }
