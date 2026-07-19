@@ -44,29 +44,29 @@ const queuedMessages = new Array<String>;
 const queuedChannel = new Array<String>;
 
 const Devs = Object.freeze({
-    KassieKitsune:{
+    KassieKitsune: {
         name: "Philosopher's Stone System",
-        id:173066847887949825n
+        id: 173066847887949825n
     }
-})
+});
 
 export const settings = definePluginSettings({
-    pkToken:{
-        description:"Required for some functions (never share this with anyone)",
-        type:OptionType.STRING,
-        default:""
+    pkToken: {
+        description: "Required for some functions (never share this with anyone)",
+        type: OptionType.STRING,
+        default: ""
     },
     minLightness: {
         description: "Minimium lightness, in %. Change if colors are too light or too dark",
         type: OptionType.SLIDER,
-        markers: [0,10,20,25,30,40,50,60,75,80,85,90,100],
+        markers: [0, 10, 20, 25, 30, 40, 50, 60, 75, 80, 85, 90, 100],
         default: 0,
         stickToMarkers: false
     },
     maxLightness: {
         description: "Maxium Lightness, in %. Change if colors are too light or too dark",
         type: OptionType.SLIDER,
-        markers: [0,10,20,25,30,40,50,60,75,80,85,90,100],
+        markers: [0, 10, 20, 25, 30, 40, 50, 60, 75, 80, 85, 90, 100],
         default: 100,
         stickToMarkers: false
     },
@@ -76,121 +76,121 @@ export const settings = definePluginSettings({
         default: "#FF00FF"
     },
     generateRandomColors: {
-        displayName:"ID Colors",
+        displayName: "ID Colors",
         description: "If true, generates colors based on a member's ID if no color is set",
-        restartNeeded:true,
+        restartNeeded: true,
         type: OptionType.BOOLEAN,
         default: false
     },
     idSaturation: {
         description: "Saturation to use for ID colors (-1 for no adjustment)",
         type: OptionType.NUMBER,
-        restartNeeded:true,
+        restartNeeded: true,
         default: 25,
     },
-    frontingPresence:{
-        displayName:"Rich Presence",
-        description:"Show the first fronter as an Activity on your profile",
-        type:OptionType.SELECT,
-        restartNeeded:true,
+    frontingPresence: {
+        displayName: "Rich Presence",
+        description: "Show the first fronter as an Activity on your profile",
+        type: OptionType.SELECT,
+        restartNeeded: true,
         options: [
-            {label:"OFF", value:"RPCoff",default:true},
-            {label:"Standard", value:"RPCstandard"},
-            {label:"Covert", value:"RPCcovert"},
-            {label:"Custom", value:"RPCcustom"}
+            { label: "OFF", value: "RPCoff", default: true },
+            { label: "Standard", value: "RPCstandard" },
+            { label: "Covert", value: "RPCcovert" },
+            { label: "Custom", value: "RPCcustom" }
         ]
     },
-    showPronounsInRichPresence:{
-        description:"",
-        type:OptionType.BOOLEAN,
-        default:false
+    showPronounsInRichPresence: {
+        description: "",
+        type: OptionType.BOOLEAN,
+        default: false
     },
-    presenceDisplayName:{
-        displayName:"Use Display Name in Presence",
-        description:"If true use the fronter's displayname instead of their name (if set)",
-        type:OptionType.BOOLEAN,
-        default:true
+    presenceDisplayName: {
+        displayName: "Use Display Name in Presence",
+        description: "If true use the fronter's displayname instead of their name (if set)",
+        type: OptionType.BOOLEAN,
+        default: true
     },
-    presenceName:{
-        displayName:"Presence Line 1",
-        description:"Insert details using [system_name], [name], [display_name], [pronouns], [member_id], [system_id]",
-        type:OptionType.STRING,
+    presenceName: {
+        displayName: "Presence Line 1",
+        description: "Insert details using [system_name], [name], [display_name], [pronouns], [member_id], [system_id]",
+        type: OptionType.STRING,
         default: "[display_name] ([pronouns])"
     },
-    presenceDetail:{
-        displayName:"Presence Line 2",
-        description:"",
-        type:OptionType.STRING,
+    presenceDetail: {
+        displayName: "Presence Line 2",
+        description: "",
+        type: OptionType.STRING,
         default: "[system_name]"
     },
-    presenceState:{
-        displayName:"Presence Line 3",
-        description:"",
-        type:OptionType.STRING,
+    presenceState: {
+        displayName: "Presence Line 3",
+        description: "",
+        type: OptionType.STRING,
         default: "Via pkPrism"
     },
-    presenceImageLink:{
-        description:"",
-        type:OptionType.STRING,
+    presenceImageLink: {
+        description: "",
+        type: OptionType.STRING,
         default: "https://dash.pluralkit.me/profile/m/[member_id]"
     },
-    presenceDetailLink:{
-        description:"",
-        type:OptionType.STRING,
+    presenceDetailLink: {
+        description: "",
+        type: OptionType.STRING,
         default: "https://dash.pluralkit.me/profile/s/[system_id]"
     },
-    presenceStateLink:{
-        description:"",
-        type:OptionType.STRING,
+    presenceStateLink: {
+        description: "",
+        type: OptionType.STRING,
         default: "https://github.com/KassieKitsune/pkPrism"
     },
-    typingQuirks:{
-        description:"",
-        type:OptionType.SELECT,
-        restartNeeded:true,
+    typingQuirks: {
+        description: "",
+        type: OptionType.SELECT,
+        restartNeeded: true,
         options: [
-            {label:"OFF", value:"TQoff",default:true},
-            {label:"Manual", value: "TQman"},
-            {label:"Latch", value:"TQlatch"},
-            {label:"Front", value:"TQfront"}
+            { label: "OFF", value: "TQoff", default: true },
+            { label: "Manual", value: "TQman" },
+            { label: "Latch", value: "TQlatch" },
+            { label: "Front", value: "TQfront" }
         ]
     },
-    typingQuirkJson:{
-        displayName:"Typing Quirk Map",
-        description:"",
-        type:OptionType.STRING,
-        restartNeeded:true,
+    typingQuirkJson: {
+        displayName: "Typing Quirk Map",
+        description: "",
+        type: OptionType.STRING,
+        restartNeeded: true,
         multiline: true,
         default: "🖳text => hexQuirk",
         placeholder: "🖳text => hexQuirk"
     },
-},{
+}, {
     idSaturation: {
-        hidden() {return !this.store.generateRandomColors}
+        hidden() { return !this.store.generateRandomColors; }
     },
     presenceDisplayName: {
-        hidden() {return this.store.frontingPresence !== "RPCstandard" && this.store.frontingPresence !== "RPCcovert"}
+        hidden() { return this.store.frontingPresence !== "RPCstandard" && this.store.frontingPresence !== "RPCcovert"; }
     },
     showPronounsInRichPresence: {
-        hidden() {return this.store.frontingPresence !== "RPCstandard"}
+        hidden() { return this.store.frontingPresence !== "RPCstandard"; }
     },
-    presenceName:{
-        hidden() {return this.store.frontingPresence !== "RPCcustom"}
+    presenceName: {
+        hidden() { return this.store.frontingPresence !== "RPCcustom"; }
     },
-    presenceDetail:{
-        hidden() {return this.store.frontingPresence !== "RPCcustom"}
+    presenceDetail: {
+        hidden() { return this.store.frontingPresence !== "RPCcustom"; }
     },
-    presenceState:{
-        hidden() {return this.store.frontingPresence !== "RPCcustom"}
+    presenceState: {
+        hidden() { return this.store.frontingPresence !== "RPCcustom"; }
     },
-    presenceImageLink:{
-        hidden() {return this.store.frontingPresence !== "RPCcustom"}
+    presenceImageLink: {
+        hidden() { return this.store.frontingPresence !== "RPCcustom"; }
     },
-    presenceDetailLink:{
-        hidden() {return this.store.frontingPresence !== "RPCcustom"}
+    presenceDetailLink: {
+        hidden() { return this.store.frontingPresence !== "RPCcustom"; }
     },
-    presenceStateLink:{
-        hidden() {return this.store.frontingPresence !== "RPCcustom"}
+    presenceStateLink: {
+        hidden() { return this.store.frontingPresence !== "RPCcustom"; }
     }
 }
 );
@@ -215,25 +215,25 @@ export default definePlugin({
 
 
     start() {
-        startup()
+        startup();
     },
 
-    stop(){
+    stop() {
     },
 
-    onBeforeMessageSend(_, msg){
-        updateFrontOnMessage(msg) // we do this this way to briefly wait for pluralkit to log the switch before we do
-        var doQuirk : string | null = null
-        if (msg.content.startsWith("pk;")){
-            doQuirk = null
+    onBeforeMessageSend(_, msg) {
+        updateFrontOnMessage(msg); // we do this this way to briefly wait for pluralkit to log the switch before we do
+        var doQuirk: string | null = null;
+        if (msg.content.startsWith("pk;")) {
+            doQuirk = null;
         }
-        else{
-            addTypingQuirk(msg,Quirks.hexQuirk)
+        else {
+            addTypingQuirk(msg, Quirks.hexQuirk);
         }
     },
 
-    onMessageClick(message){
-        if(message.applicationId === PLURALKIT_BOT_ID){pkRecordMessageMemberColorRateLimited(message.id,message.author.username,message.channel_id)}
+    onMessageClick(message) {
+        if (message.applicationId === PLURALKIT_BOT_ID) { pkRecordMessageMemberColorRateLimited(message.id, message.author.username, message.channel_id); }
     },
 
     wrapMessageColorProps(colorProps: { colorString: string, colorStrings?: Record<"primaryColor" | "secondaryColor" | "tertiaryColor", string>; }, context: any) {
@@ -263,25 +263,25 @@ export default definePlugin({
         const username = context?.message?.author?.username;
         const avatar = context?.message?.author?.avatar;
 
-        if (context?.message?.applicationId === PLURALKIT_BOT_ID && context?.message?.webhookID !== null){
+        if (context?.message?.applicationId === PLURALKIT_BOT_ID && context?.message?.webhookID !== null) {
             const cachedColor = cachedPKColors.get(username);
-            if (cachedColor === null){return settings.store.defaultColor}
-            if (cachedColor === undefined){
+            if (cachedColor === null) { return settings.store.defaultColor; }
+            if (cachedColor === undefined) {
                 //if (queuedNames.indexOf(username) === -1){
-                    queuedNames.push(username);
-                    queuedMessages.push(context?.message?.id)
-                    queuedChannel.push(context?.channel?.id)
-                    if (queuedNames.length > 1){
-                        getQueuedColor()
-                    }
-                    //}
-                    //else{
-                        //updateMessageDelayed(context?.message?.id,context?.channel?.id)
-                    //}
+                queuedNames.push(username);
+                queuedMessages.push(context?.message?.id);
+                queuedChannel.push(context?.channel?.id);
+                if (queuedNames.length == 1) {
+                    getQueuedColor();
+                }
+                //}
+                //else{
+                //updateMessageDelayed(context?.message?.id,context?.channel?.id)
+                //}
 
                 return settings.store.defaultColor;
             }
-            return "#"+adjustColor(cachedPKColors.get(username));
+            return "#" + adjustColor(cachedPKColors.get(username));
         }
 
         return colorString;
@@ -289,127 +289,128 @@ export default definePlugin({
 
 });
 
-async function startup(){
+async function startup() {
     await getSystemData();
-    if (settings.store.frontingPresence !== "RPCoff"){
+    if (settings.store.frontingPresence !== "RPCoff") {
+        await getSystemData();
         updateFrontActivity();
-        setInterval(() => { updateFrontActivity() }, 300000);
-        setInterval(() => { getQueuedColor() }, 200)
+        setInterval(() => { updateFrontActivity(); }, 300000);
     }
-    await populateQuirks()
+    await populateQuirks();
 }
 
-async function getQueuedColor(){
+async function getQueuedColor() {
     const messageID = queuedMessages.pop();
     const channelID = queuedChannel.pop();
     const name = queuedNames.pop();
-    if (cachedPKColors[name] === undefined){
-        console.log(messageID,channelID,name)
-        await pkRecordMessageMemberColorRateLimited(messageID,name,channelID)
-        updateMessage(channelID,messageID)
-        sleep(apiDelayStep)
-        if (queuedNames.length > 1){
-            getQueuedColor()
+    const cachedColor = cachedPKColors.get(name);
+    if (cachedColor === undefined) {
+        console.log(messageID, channelID, name);
+        await pkRecordMessageMemberColorRateLimited(messageID, name, channelID);
+        updateMessage(channelID, messageID);
+        sleep(apiDelayStep);
+        if (queuedNames.length > 1) {
+            getQueuedColor();
         }
     }
     else {
-        updateMessageDelayed(channelID,messageID)
-        console.log(apiDelay);
-        if (name !== undefined){
-            getQueuedColor()
+        updateMessage(channelID, messageID);
+        console.log(messageID);
+        if (name !== undefined) {
+            getQueuedColor();
         }
     }
 }
 
-function sleep(ms:number) {
+function sleep(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function updateMessageDelayed(m_id:string,ch_id:string,delay:number = apiDelay * 2 ){
+async function updateMessageDelayed(m_id: string, ch_id: string, delay: number = apiDelay * 2) {
     await sleep(delay);
-    updateMessage(ch_id,m_id)
+    updateMessage(ch_id, m_id);
 }
 
-async function pkRecordMessageMemberColorRateLimited(messageID:string,username:string,channelID?:string){
+async function pkRecordMessageMemberColorRateLimited(messageID: string, username: string, channelID?: string) {
     //cachedPKColors.set(username,settings.store.defaultColor)
 
 
     {
-        apiDelay+=apiDelayStep;
+        apiDelay += apiDelayStep;
         await sleep(apiDelay);
-        apiDelay-=apiDelayStep;
-    }
+        apiDelay -= apiDelayStep;
+    }// still do this to delay color updates for non-querrying messages
 
     const message = await Native.pkMessageRequest(messageID);
 
-    if (message !== undefined){
+    if (message !== undefined) {
         const member: pkMember = message.member;
         var color = member.color;
 
-        if (settings.store.generateRandomColors && color === null){
-            color = generateColorsFromID(member)
-            }
+        if (settings.store.generateRandomColors && color === null) {
+            color = generateColorsFromID(member);
+        }
 
-        cachedPKColors.set(username,color);
+        cachedPKColors.set(username, color);
 
-        console.log(username+" : "+color);
+        console.log(username + " : " + color);
     }
-    else{console.error("Could not Find PK Message");}
+    else { console.error("Could not Find PK Message"); }
 
-    queuedNames.splice(queuedNames.indexOf[username],1);
+    queuedNames.splice(queuedNames.indexOf[username], 1);
     console.log(queuedNames);
     //updateMessage(channelID,messageID)
 }
 
-function adjustColor(color:string,saturation:number=-1,minL:number=settings.store.minLightness,maxL:number=settings.store.maxLightness){
-    var hslColor = hexToHSL(color)
+function adjustColor(color: string, saturation: number = -1, minL: number = settings.store.minLightness, maxL: number = settings.store.maxLightness) {
+    var hslColor = hexToHSL(color);
 
-    if (hslColor.lightness < minL){
-        hslColor.lightness = minL
+    if (hslColor.lightness < minL) {
+        hslColor.lightness = minL;
     }
-    else if (hslColor.lightness > maxL){
-        hslColor.lightness = maxL
+    else if (hslColor.lightness > maxL) {
+        hslColor.lightness = maxL;
     }
-    if (saturation > 0){hslColor.saturation = saturation}
-    color = hslToHex(hslColor.hue,hslColor.saturation,hslColor.lightness)
+    if (saturation > 0) { hslColor.saturation = saturation; }
+    color = hslToHex(hslColor.hue, hslColor.saturation, hslColor.lightness);
 
-    return color
+    return color;
 }
 
 function hslToHex(h, s, l) {
     l /= 100;
     const a = s * Math.min(l, 1 - l) / 100;
     const f = n => {
-    const k = (n + h / 30) % 12;
-    const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
-    return Math.round(255 * color).toString(16).padStart(2, '0');   // convert to Hex and prefix "0" if needed
+        const k = (n + h / 30) % 12;
+        const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+        return Math.round(255 * color).toString(16).padStart(2, '0');   // convert to Hex and prefix "0" if needed
     };
     return `${f(0)}${f(8)}${f(4)}`;
 }
 
 // what a coincidence that pk member IDs are 6 letters long
-function generateColorsFromID(member : pkMember){
+function generateColorsFromID(member: pkMember) {
     const id = member.id;
     var color = "";
-    for (let i = 0; i < id.length; i++){
-        var c = id.charAt(i)
-        const alphabet = "abcdefghijklmnopqrstuvwxyz"
-        const hexxabet = "0123456789abcdeffedcba9876"
-        c = hexxabet.charAt(alphabet.indexOf(c))
+    for (let i = 0; i < id.length; i++) {
+        var c = id.charAt(i);
+        const alphabet = "abcdefghijklmnopqrstuvwxyz";
+        const hexxabet = "0123456789abcdeffedcba9876";
+        c = hexxabet.charAt(alphabet.indexOf(c));
 
-        color.padEnd(6,"f")//just in case
-        color += c
+        color.padEnd(6, "f");//just in case
+        color += c;
     }
-    return adjustColor(color,settings.store.idSaturation)
+    return adjustColor(color, settings.store.idSaturation);
 }
 
-async function updateFrontOnMessage(msg:MessageObject){
-    if (msg.content.startsWith("pk; sw")){
-        await sleep(200)
-        updateFrontActivity()
+async function updateFrontOnMessage(msg: MessageObject) {
+    if (msg.content.startsWith("pk; sw")) {
+        await sleep(200);
+        updateFrontActivity();
     }
 }
 
-async function addTypingQuirk(msg:MessageObject,quirk:TypingQuirk){
-    msg.content = await quirkifyText(msg.content)
+async function addTypingQuirk(msg: MessageObject, quirk: TypingQuirk) {
+    msg.content = await quirkifyText(msg.content);
 }
