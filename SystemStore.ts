@@ -11,7 +11,7 @@ export var proxiesByMember = new Map();
 export var currentAutoProxy: SystemAutoproxySettings;
 
 export async function getSystemData() {
-    storedSystem = await Native.pkSystemRequest(UserStore.getCurrentUser().id, settings.store.pkToken/*, ["fronters" /*, "members"]*/);
+    storedSystem = await Native.pkSystemRequest(UserStore.getCurrentUser().id, settings.store.pkToken, ["fronters" , "members"]);
     storedSystem.members?.forEach(
         (m, k) => {
             m.proxy_tags?.forEach(
@@ -24,7 +24,7 @@ export async function getSystemData() {
             );
         }
     );
-    populateQuirks();
+    //populateQuirks();
     console.log(membersByProxy);
     console.log(proxiesByMember);
 }

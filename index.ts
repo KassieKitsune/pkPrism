@@ -290,13 +290,13 @@ export default definePlugin({
 });
 
 async function startup() {
-    await getSystemData();
+    //await getSystemData();
     if (settings.store.frontingPresence !== "RPCoff") {
         //await getSystemData();
         updateFrontActivity();
         setInterval(() => { updateFrontActivity(); }, 300000);
     }
-    await populateQuirks();
+    populateQuirks();
 }
 
 async function getQueuedColor() {
@@ -304,19 +304,20 @@ async function getQueuedColor() {
     const channelID = queuedChannel.pop();
     const name = queuedNames.pop();
     const cachedColor = cachedPKColors.get(name);
+    console.log(apiDelay)
     if (cachedColor === undefined) {
         console.log(messageID, channelID, name);
         await pkRecordMessageMemberColorRateLimited(messageID, name, channelID);
         updateMessage(channelID, messageID);
-        sleep(apiDelayStep);
-        if (queuedNames.length > 1) {
+
+        if (queuedNames.length > 0) {
+            await sleep(apiDelayStep);
             getQueuedColor();
         }
     }
     else {
         updateMessage(channelID, messageID);
-        console.log(messageID);
-        if (name !== undefined) {
+        if (queuedNames.length > 0) {
             getQueuedColor();
         }
     }
@@ -335,11 +336,11 @@ async function pkRecordMessageMemberColorRateLimited(messageID: string, username
     //cachedPKColors.set(username,settings.store.defaultColor)
 
 
-    {
+    /*{
         apiDelay += apiDelayStep;
         await sleep(apiDelay);
         apiDelay -= apiDelayStep;
-    }// still do this to delay color updates for non-querrying messages
+    }*/// still do this to delay color updates for non-querrying messages
 
     const message = await Native.pkMessageRequest(messageID);
 
@@ -359,6 +360,7 @@ async function pkRecordMessageMemberColorRateLimited(messageID: string, username
 
     queuedNames.splice(queuedNames.indexOf[username], 1);
     console.log(queuedNames);
+    return
     //updateMessage(channelID,messageID)
 }
 

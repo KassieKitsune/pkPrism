@@ -103,6 +103,28 @@ export async function populateQuirks() {
                 quirk[k] = quirkJSON[k];
             }
         }
+    }
+}
+/*export async function populateQuirks(){
+    var quirkStrSplit = settings.store.typingQuirkJson.split("\n")
+    quirkStrSplit.forEach((quirk) => {
+        var keySplit = quirk.split("=>")
+        quirkMap.set(keySplit[0].trim(),keySplit[1])
+    })
+}*/
+
+var autoQuirk = ""
+
+export async function quirkifyText(str:string){
+    var quirky = str
+    quirkMap.forEach((f,p) => {
+        var proxySplit = p.split("text")
+        if (str.startsWith(proxySplit[0]) && str.endsWith(proxySplit[1])) {
+            if (settings.store.typingQuirks === "TQlatch") {autoQuirk = f}
+
+            quirky = proxySplit[0] + applyQuirk(str.replace(RegExp("^"+proxySplit[0]),"").replace(RegExp(proxySplit[1]+"$"),""),Quirks[f]) + proxySplit[1]
+            console.log(quirky)
+        }
         quirkMap.set(key, quirk);
         console.log(applyQuirk("this is a test", quirk));
     }
