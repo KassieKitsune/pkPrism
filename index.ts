@@ -40,6 +40,8 @@ export const PLURALKIT_BOT_ID = "466378653216014359";
 const cachedPKColors = new Map();
 
 const queuedNames = new Array<String>;
+const queuedMessages = new Array<String>;
+const queuedChannel = new Array<String>;
 
 const Devs = Object.freeze({
     KassieKitsune:{
@@ -261,17 +263,21 @@ export default definePlugin({
         const username = context?.message?.author?.username;
         const avatar = context?.message?.author?.avatar;
 
-        if (context?.message?.applicationId === PLURALKIT_BOT_ID){
+        if (context?.message?.applicationId === PLURALKIT_BOT_ID && context?.message?.webhookID !== null){
             const cachedColor = cachedPKColors.get(username);
             if (cachedColor === null){return settings.store.defaultColor}
             if (cachedColor === undefined){
-                if (queuedNames.indexOf(username) === -1){
+                //if (queuedNames.indexOf(username) === -1){
                     queuedNames.push(username);
-                    pkRecordMessageMemberColorRateLimited(context?.message?.id,username,context?.channel?.id);
+                    queuedMessages.push(context?.message?.id)
+                    queuedChannel.push(context?.channel?.id)
+                    if (queuedNames.length > 1){
+                        getQueuedColor()
                     }
-                    else{
-                        updateMessageDelayed(context?.message?.id,context?.channel?.id)
-                    }
+                    //}
+                    //else{
+                        //updateMessageDelayed(context?.message?.id,context?.channel?.id)
+                    //}
 
                 return settings.store.defaultColor;
             }
@@ -288,8 +294,31 @@ async function startup(){
     if (settings.store.frontingPresence !== "RPCoff"){
         updateFrontActivity();
         setInterval(() => { updateFrontActivity() }, 300000);
+        setInterval(() => { getQueuedColor() }, 200)
     }
     await populateQuirks()
+}
+
+async function getQueuedColor(){
+    const messageID = queuedMessages.pop();
+    const channelID = queuedChannel.pop();
+    const name = queuedNames.pop();
+    if (cachedPKColors[name] === undefined){
+        console.log(messageID,channelID,name)
+        await pkRecordMessageMemberColorRateLimited(messageID,name,channelID)
+        updateMessage(channelID,messageID)
+        sleep(apiDelayStep)
+        if (queuedNames.length > 1){
+            getQueuedColor()
+        }
+    }
+    else {
+        updateMessageDelayed(channelID,messageID)
+        console.log(apiDelay);
+        if (name !== undefined){
+            getQueuedColor()
+        }
+    }
 }
 
 function sleep(ms:number) {
@@ -304,10 +333,12 @@ async function updateMessageDelayed(m_id:string,ch_id:string,delay:number = apiD
 async function pkRecordMessageMemberColorRateLimited(messageID:string,username:string,channelID?:string){
     //cachedPKColors.set(username,settings.store.defaultColor)
 
-    apiDelay+=apiDelayStep;
-    await sleep(apiDelay);
-    apiDelay -= apiDelayStep;
-    console.log(apiDelay);
+
+    {
+        apiDelay+=apiDelayStep;
+        await sleep(apiDelay);
+        apiDelay-=apiDelayStep;
+    }
 
     const message = await Native.pkMessageRequest(messageID);
 
@@ -327,7 +358,7 @@ async function pkRecordMessageMemberColorRateLimited(messageID:string,username:s
 
     queuedNames.splice(queuedNames.indexOf[username],1);
     console.log(queuedNames);
-    updateMessage(channelID,messageID)
+    //updateMessage(channelID,messageID)
 }
 
 function adjustColor(color:string,saturation:number=-1,minL:number=settings.store.minLightness,maxL:number=settings.store.maxLightness){

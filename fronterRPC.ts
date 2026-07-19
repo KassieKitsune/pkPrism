@@ -52,6 +52,7 @@ async function setActivity(activity: Activity | null) {
 }
 
 export async function updateFrontActivity(systemID:string=UserStore.getCurrentUser().id,token:string = settings.store.pkToken){
+    console.log("a")
     await getSystemData()
     const sys :System = storedSystem
     const sw :Switch | undefined = storedSystem.fronters
