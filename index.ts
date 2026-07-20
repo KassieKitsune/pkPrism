@@ -39,6 +39,7 @@ export const PLURALKIT_BOT_ID = "466378653216014359";
 
 const cachedPKColors = new Map();
 
+const queueBuffer = new Array<String>;
 const queuedNames = new Array<String>;
 const queuedMessages = new Array<String>;
 const queuedChannel = new Array<String>;
@@ -267,7 +268,6 @@ export default definePlugin({
             const cachedColor = cachedPKColors.get(username);
             if (cachedColor === null) { return settings.store.defaultColor; }
             if (cachedColor === undefined) {
-                //if (queuedNames.indexOf(username) === -1){
                 queuedNames.push(username);
                 queuedMessages.push(context?.message?.id);
                 queuedChannel.push(context?.channel?.id);
@@ -287,7 +287,8 @@ export default definePlugin({
         return colorString;
     }
 
-});
+}
+);
 
 async function startup() {
     //await getSystemData();
@@ -304,12 +305,14 @@ async function getQueuedColor() {
     const channelID = queuedChannel.pop();
     const name = queuedNames.pop();
     const cachedColor = cachedPKColors.get(name);
-    console.log(apiDelay)
+    console.log(apiDelay);
     if (cachedColor === undefined) {
         console.log(messageID, channelID, name);
-        await pkRecordMessageMemberColorRateLimited(messageID, name, channelID);
-        updateMessage(channelID, messageID);
-
+        if (queueBuffer.indexOf(name) === -1) {
+            queueBuffer.push(name);
+            await pkRecordMessageMemberColorRateLimited(messageID, name, channelID);
+        }
+        updateMessage(channelID, messageID); updateMessage(channelID, messageID);
         if (queuedNames.length > 0) {
             await sleep(apiDelayStep);
             getQueuedColor();
@@ -358,9 +361,9 @@ async function pkRecordMessageMemberColorRateLimited(messageID: string, username
     }
     else { console.error("Could not Find PK Message"); }
 
-    queuedNames.splice(queuedNames.indexOf[username], 1);
-    console.log(queuedNames);
-    return
+    queueBuffer.splice(queueBuffer.indexOf[username], 1);
+    //console.log(queuedNames);
+    return;
     //updateMessage(channelID,messageID)
 }
 
