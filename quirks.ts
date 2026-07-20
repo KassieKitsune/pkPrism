@@ -11,9 +11,51 @@ export interface TypingQuirk {
     keyOut: string,
     keySepIn?: string,
     keySepOut?: string,
-    args?: Array<any>,
+    args?: any[],
     translate: Boolean,
     func: CallableFunction;
+}
+
+export const func = {
+    substitutionQuirk(input: string, a: string, b: string, sep: string = "", sep2: string = "", args?: any[]) {
+        var a_split: Array<string> = a.split(sep);
+        var b_split: Array<string> = b.split(sep2);
+
+        for (var i = 0; i < a_split.length; i++) {
+            while (input.includes(a_split[i])) {
+                input = input.replace(a_split[i], b_split[i]);
+            }
+        }
+        return input;
+    },
+
+    serialSubstitutionQuirk(input: string, a: string, b: string, sep: string = "", sep2: string = "", args?: any[]) {
+        var result: string = "";
+        var i_split: Array<string> = input.split("");
+        var a_split: Array<string> = a.split(sep);
+        var b_split: Array<string> = b.split(sep2);
+
+        for (var e = 0; e < i_split.length; e++) {
+            const idx = a_split.indexOf(i_split[e]);
+            var c = i_split[e];
+            var aC = a_split[idx];
+            if (idx !== -1) {
+                c = b_split[idx];
+            }
+            result += c;
+        }
+        return result;
+    },
+
+    numericEncodingQuirk(input: string, a: string, b: string, sep: string = "", sep2: string = "", args: any[]) {
+        const base: number = args[0];
+        var result: string = "";
+        const trimput = input.trim();
+        for (var i = 0; i < trimput.length; i++) {
+            result += trimput.charCodeAt(i).toString(base) + " ";
+        }
+        return result;
+    }
 }
 
 export const Quirks = {
@@ -22,26 +64,19 @@ export const Quirks = {
         keyOut: "",
         keySepOut: ",",
         translate: true,
-        func: (input: string) => {
-            var result: string = "";
-            var trimput = input.trim();
-            for (var i = 0; i < trimput.length; i++) {
-                result += trimput.charCodeAt(i).toString(16) + " ";
-            }
-            return result;
-        }
+        func: func.numericEncodingQuirk
     },
     capsQuirk: {
         keyIn: "abcdefghijklmnopqrstuvwxyz",
         keyOut: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
         translate: false,
-        func: substitutionQuirk
+        func: func.substitutionQuirk
     },
     lowerQuirk: {
         keyOut: "abcdefghijklmnopqrstuvwxyz",
         keyIn: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
         translate: false,
-        func: substitutionQuirk
+        func: func.substitutionQuirk
     },
     nepQuirk: {
         keyIn: "ee|EE",
@@ -50,7 +85,7 @@ export const Quirks = {
         keySepOut: "|",
         translate: false,
         func: (input: string, keyIn: string, keyOut: string, keySepIn: string, keySepOut: string) => {
-            return ":33 < " + substitutionQuirk(input, keyIn, keyOut, keySepIn, keySepOut);
+            return ":33 < " + func.substitutionQuirk(input, keyIn, keyOut, keySepIn, keySepOut);
         }
     },
     radioQuirk: {
@@ -85,31 +120,41 @@ export const Quirks = {
 
 export async function populateQuirks() {
     const rawJSON = settings.store.typingQuirkJson
-    const flatJSON = rawJSON.replace(/[\r\n\t\f\v]/g,"")
+    const flatJSON = rawJSON.replace(/[\r\n\t\f\v]/g, "")
     const parsedJSON = JSON.parse(flatJSON);
     console.log(rawJSON)
     console.log(flatJSON)
     console.log(parsedJSON);
     for (let key in parsedJSON) {
-        const quirk: TypingQuirk = {keyIn: "", keyOut: "", translate: true, func: substitutionQuirk };
+        const quirk: TypingQuirk = { keyIn: "", keyOut: "", translate: true, func: func.substitutionQuirk };
         const quirkJSON = parsedJSON[key];
-        for (let k in quirkJSON) {
-            if (k === "customFunction") {
-                const rawFunc = quirkJSON[k];
-                console.log(rawFunc);
-                const parseFunc = new Function('input', 'keyIn', 'keyOut', 'keySepIn', 'keySepOut', 'args', rawFunc);
-                quirk.func = parseFunc;
+        const keyType = typeof quirkJSON;
+        if (keyType === "object") {
+            for (let k in quirkJSON) {
+                if (k === "customFunction") { //custom function always takes priority over built-ins
+                    const rawFunc = quirkJSON[k];
+                    console.log(rawFunc);
+                    const parseFunc = new Function('input', 'keyIn', 'keyOut', 'keySepIn', 'keySepOut', 'args', rawFunc);
+                    quirk.func = parseFunc;
+                }
+                else if (k.startsWith("func")) {
+                    if (quirkJSON[k] in func) {
+                        quirk.func = func[quirkJSON[k]];
+                    }
+                }
+                else {
+                    quirk[k] = quirkJSON[k];
+                }
             }
-            else if (k.startsWith("func")) {
-                quirk.func = this[quirkJSON[k]];
-            }
-            else {
-                quirk[k] = quirkJSON[k];
-            }
-            console.log(applyQuirk("this is a test",quirk))
+            console.log(applyQuirk("this is a test", quirk));
+            quirkMap.set(key, quirk);
         }
-
-        quirkMap.set(key,quirk)
+        else if (keyType === "string") {
+            if (quirkJSON in Quirks) {
+                console.log(applyQuirk("this is a test", Quirks[quirkJSON]));
+                quirkMap.set(key, Quirks[quirkJSON]);
+            }
+        }
     }
     console.log(quirkMap)
 }
@@ -121,12 +166,10 @@ export async function populateQuirks() {
     })
 }*/
 
-var autoQuirk = ""
-
 /*export async function quirkifyText(str:string){
     var quirky = str
-    quirkMap.forEach((f,p) => {
-        var proxySplit = p.split("text")
+    quirkMap.forEach((f,proxy) => {
+        var proxySplit = proxy.split("text")
         if (str.startsWith(proxySplit[0]) && str.endsWith(proxySplit[1])) {
             if (settings.store.typingQuirks === "TQlatch") {autoQuirk = f}
 
@@ -144,23 +187,25 @@ var autoQuirk = ""
     });
 }*/
 
-var autoQuirk = "";
+var autoQuirk = "📻text";
 
 export async function quirkifyText(str: string) {
+    if (settings.store.typingQuirks === "TQoff") { return str; }
     var quirky = str;
-    quirkMap.forEach((f, p) => {
-        console.log(quirkMap.get(f))
-        var proxySplit = p.split("text");
-        if (str.startsWith(proxySplit[0].trim()) && str.endsWith(proxySplit[1].trim())) {
-            if (settings.store.typingQuirks === "TQlatch") { autoQuirk = f; }
-            quirky = proxySplit[0] + applyQuirk(str.replace(RegExp("^" + proxySplit[0]), "").replace(RegExp(proxySplit[1] + "$"), ""), quirkMap.get(f)) + proxySplit[1];
-            console.log(quirky);
+
+    quirkMap.forEach((quirk, proxy) => {
+        var proxySplit = proxy.split("text");
+        if (str.startsWith(proxySplit[0]) && str.endsWith(proxySplit[1])) {
+            console.log(proxy, ":", quirk)
+            if (settings.store.typingQuirks === "TQlatch") { autoQuirk = proxy; }
+            quirky = proxySplit[0] + applyQuirk(str.replace(RegExp("^" + proxySplit[0]), "").replace(RegExp(proxySplit[1] + "$"), ""), quirkMap.get(proxy)) + proxySplit[1];
+            console.log(applyQuirk(str, quirkMap.get(proxy)));
         }
     });
-    if (settings.store.typingQuirks === "TQoff") { return str; }
 
     if (settings.store.typingQuirks === "TQfront") {
         const firstFronter: string = storedSystem.fronters?.members?.keys().next().value;
+        console.log(firstFronter)
         const fronterProxy: string = proxiesByMember.get(firstFronter);
         autoQuirk = quirkMap.get(fronterProxy);
     }
@@ -171,38 +216,9 @@ export async function quirkifyText(str: string) {
 }
 
 export function applyQuirk(str: string, quirk: TypingQuirk) {
+    if (quirk === null || quirk === undefined) { return str }
+
     var output = quirk.func(str, quirk.keyIn, quirk.keyOut, quirk.keySepIn, quirk.keySepOut, quirk.args);
     if (quirk.translate) { output = output + " \n> " + str; }
     return output;
 }
-
-function substitutionQuirk(input: string, a: string, b: string, sep: string = "", sep2: string = "") {
-    var a_split: Array<string> = a.split(sep);
-    var b_split: Array<string> = b.split(sep2);
-
-    for (var i = 0; i < a_split.length; i++) {
-        while (input.includes(a_split[i])) {
-            input = input.replace(a_split[i], b_split[i]);
-        }
-    }
-    return input;
-}
-
-function serialSubstitutionQuirk(input: string, a: string, b: string, sep: string = "", sep2: string = "") {
-    var result: string = "";
-    var i_split: Array<string> = input.split("");
-    var a_split: Array<string> = a.split(sep);
-    var b_split: Array<string> = b.split(sep2);
-
-    for (var e = 0; e < i_split.length; e++) {
-        const idx = a_split.indexOf(i_split[e]);
-        var c = i_split[e];
-        var aC = a_split[idx];
-        if (idx !== -1) {
-            c = b_split[idx];
-        }
-        result += c;
-    }
-    return result;
-}
-
