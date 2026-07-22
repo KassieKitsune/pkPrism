@@ -265,7 +265,7 @@ export default definePlugin({
         const avatar = context?.message?.author?.avatar;
 
         if (context?.message?.applicationId === PLURALKIT_BOT_ID && context?.message?.webhookId !== null) {
-            console.log(username,context?.message?.webhookId)
+            // console.log(username, context?.message?.webhookId);
             const cachedColor = cachedPKColors.get(username);
             if (cachedColor === null) { return settings.store.defaultColor; }
             if (cachedColor === undefined) {
@@ -322,7 +322,6 @@ async function getQueuedColor() {
     else {
         updateMessage(channelID, messageID);
         if (queuedNames.length > 0) {
-            await sleep(apiDelayStep);
             getQueuedColor();
         }
     }
@@ -346,10 +345,10 @@ async function pkRecordMessageMemberColorRateLimited(messageID: string, username
         await sleep(apiDelay);
         apiDelay -= apiDelayStep;
     }*/// still do this to delay color updates for non-querrying messages
-    var message : pkMessage | undefined
-    try { message = await Native.pkMessageRequest(messageID);}
-    catch(e){
-        message = undefined
+    var message: pkMessage | undefined;
+    try { message = await Native.pkMessageRequest(messageID); }
+    catch (e) {
+        message = undefined;
     }
 
     if (message !== undefined) {
