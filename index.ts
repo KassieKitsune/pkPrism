@@ -22,7 +22,7 @@ import { hexToHSL } from "@plugins/clientTheme/utils/colorUtils";
 
 import definePlugin, { OptionType } from "@utils/types";
 import { PluginNative } from "@utils/types";
-import { Member as pkMember, Switch, System } from "pkapi.js";
+import { Member as pkMember, Message as pkMessage, Switch, System } from "pkapi.js";
 
 import { updateMessage } from "@api/MessageUpdater";
 
@@ -264,14 +264,15 @@ export default definePlugin({
         const username = context?.message?.author?.username;
         const avatar = context?.message?.author?.avatar;
 
-        if (context?.message?.applicationId === PLURALKIT_BOT_ID && context?.message?.webhookID !== null) {
+        if (context?.message?.applicationId === PLURALKIT_BOT_ID && context?.message?.webhookId !== null) {
+            console.log(username,context?.message?.webhookId)
             const cachedColor = cachedPKColors.get(username);
             if (cachedColor === null) { return settings.store.defaultColor; }
             if (cachedColor === undefined) {
                 queuedNames.push(username);
                 queuedMessages.push(context?.message?.id);
                 queuedChannel.push(context?.channel?.id);
-                if (queuedNames.length == 1) {
+                if (queueBuffer.length <= 0) {
                     getQueuedColor();
                 }
                 //}
@@ -305,14 +306,14 @@ async function getQueuedColor() {
     const channelID = queuedChannel.pop();
     const name = queuedNames.pop();
     const cachedColor = cachedPKColors.get(name);
-    console.log(apiDelay);
+    //console.log(apiDelay);
     if (cachedColor === undefined) {
-        console.log(messageID, channelID, name);
+        //console.log(messageID, channelID, name);
         if (queueBuffer.indexOf(name) === -1) {
             queueBuffer.push(name);
             await pkRecordMessageMemberColorRateLimited(messageID, name, channelID);
         }
-        updateMessage(channelID, messageID); updateMessage(channelID, messageID);
+        updateMessage(channelID, messageID);
         if (queuedNames.length > 0) {
             await sleep(apiDelayStep);
             getQueuedColor();
@@ -321,6 +322,7 @@ async function getQueuedColor() {
     else {
         updateMessage(channelID, messageID);
         if (queuedNames.length > 0) {
+            await sleep(apiDelayStep);
             getQueuedColor();
         }
     }
@@ -344,8 +346,11 @@ async function pkRecordMessageMemberColorRateLimited(messageID: string, username
         await sleep(apiDelay);
         apiDelay -= apiDelayStep;
     }*/// still do this to delay color updates for non-querrying messages
-
-    const message = await Native.pkMessageRequest(messageID);
+    var message : pkMessage | undefined
+    try { message = await Native.pkMessageRequest(messageID);}
+    catch(e){
+        message = undefined
+    }
 
     if (message !== undefined) {
         const member: pkMember = message.member;
