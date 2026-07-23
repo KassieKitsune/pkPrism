@@ -1,7 +1,11 @@
-import { parse } from "path";
+/*
+ * Vencord, a Discord client mod
+ * Copyright (c) 2026 Vendicated and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 import { settings } from ".";
-import { membersByProxy, proxiesByMember, storedSystem } from "./SystemStore";
-import { ProxyTag, Switch, System, Member as pkMember } from "pkapi.js";
+import { proxiesByMember, storedSystem } from "./SystemStore";
 
 export var currentQuirk: string;
 export var quirkMap = new Map();
@@ -56,7 +60,7 @@ export const func = {
         }
         return result;
     }
-}
+};
 
 export const Quirks = {
     hexQuirk: {
@@ -119,22 +123,22 @@ export const Quirks = {
 };
 
 export async function populateQuirks() {
-    const rawJSON = settings.store.typingQuirkJson
-    const flatJSON = rawJSON.replace(/[\r\n\t\f\v]/g, "")
+    const rawJSON = settings.store.typingQuirkJson;
+    const flatJSON = rawJSON.replace(/[\r\n\t\f\v]/g, "");
     const parsedJSON = JSON.parse(flatJSON);
-    console.log(rawJSON)
-    console.log(flatJSON)
+    console.log(rawJSON);
+    console.log(flatJSON);
     console.log(parsedJSON);
-    for (let key in parsedJSON) {
+    for (const key in parsedJSON) {
         const quirk: TypingQuirk = { keyIn: "", keyOut: "", translate: true, func: func.substitutionQuirk };
         const quirkJSON = parsedJSON[key];
         const keyType = typeof quirkJSON;
         if (keyType === "object") {
-            for (let k in quirkJSON) {
-                if (k === "customFunction") { //custom function always takes priority over built-ins
+            for (const k in quirkJSON) {
+                if (k === "customFunction") { // custom function always takes priority over built-ins
                     const rawFunc = quirkJSON[k];
                     console.log(rawFunc);
-                    const parseFunc = new Function('input', 'keyIn', 'keyOut', 'keySepIn', 'keySepOut', 'args', rawFunc);
+                    const parseFunc = new Function("input", "keyIn", "keyOut", "keySepIn", "keySepOut", "args", rawFunc);
                     quirk.func = parseFunc;
                 }
                 else if (k.startsWith("func")) {
@@ -156,9 +160,9 @@ export async function populateQuirks() {
             }
         }
     }
-    console.log(quirkMap)
+    console.log(quirkMap);
 }
-/*export async function populateQuirks(){
+/* export async function populateQuirks(){
     var quirkStrSplit = settings.store.typingQuirkJson.split("\n")
     quirkStrSplit.forEach((quirk) => {
         var keySplit = quirk.split("=>")
@@ -166,7 +170,7 @@ export async function populateQuirks() {
     })
 }*/
 
-/*export async function quirkifyText(str:string){
+/* export async function quirkifyText(str:string){
     var quirky = str
     quirkMap.forEach((f,proxy) => {
         var proxySplit = proxy.split("text")
@@ -196,7 +200,7 @@ export async function quirkifyText(str: string) {
     quirkMap.forEach((quirk, proxy) => {
         var proxySplit = proxy.split("text");
         if (str.startsWith(proxySplit[0]) && str.endsWith(proxySplit[1])) {
-            console.log(proxy, ":", quirk)
+            console.log(proxy, ":", quirk);
             if (settings.store.typingQuirks === "TQlatch") { autoQuirk = proxy; }
             quirky = proxySplit[0] + applyQuirk(str.replace(RegExp("^" + proxySplit[0]), "").replace(RegExp(proxySplit[1] + "$"), ""), quirkMap.get(proxy)) + proxySplit[1];
             console.log(applyQuirk(str, quirkMap.get(proxy)));
@@ -205,9 +209,10 @@ export async function quirkifyText(str: string) {
 
     if (settings.store.typingQuirks === "TQfront") {
         const firstFronter: string = storedSystem.fronters?.members?.keys().next().value;
-        console.log(firstFronter)
+        console.log(firstFronter);
         const fronterProxy: string = proxiesByMember.get(firstFronter);
-        autoQuirk = quirkMap.get(fronterProxy);
+        console.log(fronterProxy);
+        autoQuirk = fronterProxy;
     }
     if (quirky === str) {
         quirky = applyQuirk(str, quirkMap.get(autoQuirk));
@@ -216,7 +221,7 @@ export async function quirkifyText(str: string) {
 }
 
 export function applyQuirk(str: string, quirk: TypingQuirk) {
-    if (quirk === null || quirk === undefined) { return str }
+    if (quirk === null || quirk === undefined) { return str; }
 
     var output = quirk.func(str, quirk.keyIn, quirk.keyOut, quirk.keySepIn, quirk.keySepOut, quirk.args);
     if (quirk.translate) { output = output + " \n> " + str; }

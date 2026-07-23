@@ -16,19 +16,16 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { definePluginSettings } from "@api/Settings";
 import { MessageObject } from "@api/MessageEvents";
+import { updateMessage } from "@api/MessageUpdater";
+import { definePluginSettings } from "@api/Settings";
 import { hexToHSL } from "@plugins/clientTheme/utils/colorUtils";
-
 import definePlugin, { OptionType } from "@utils/types";
 import { PluginNative } from "@utils/types";
-import { Member as pkMember, Message as pkMessage, Switch, System } from "pkapi.js";
+import { Member as pkMember, Message as pkMessage } from "pkapi.js";
 
-import { updateMessage } from "@api/MessageUpdater";
-
-import { applyQuirk, populateQuirks, quirkifyText, quirkMap, Quirks, QuirkMap, TypingQuirk } from "./quirks";
 import { updateFrontActivity } from "./fronterRPC";
-import { getSystemData, storedProxies, storedSystem } from "./SystemStore";
+import { populateQuirks, quirkifyText } from "./quirks";
 
 export const Native = VencordNative.pluginHelpers.pkPrism as PluginNative<typeof import("./native")>;
 
@@ -275,10 +272,10 @@ export default definePlugin({
                 if (queueBuffer.length <= 0) {
                     getQueuedColor();
                 }
-                //}
-                //else{
-                //updateMessageDelayed(context?.message?.id,context?.channel?.id)
-                //}
+                // }
+                // else{
+                // updateMessageDelayed(context?.message?.id,context?.channel?.id)
+                // }
 
                 return settings.store.defaultColor;
             }
@@ -292,9 +289,9 @@ export default definePlugin({
 );
 
 async function startup() {
-    //await getSystemData();
+    // await getSystemData();
     if (settings.store.frontingPresence !== "RPCoff") {
-        //await getSystemData();
+        // await getSystemData();
         await updateFrontActivity();
         setInterval(() => { updateFrontActivity(); }, 300000);
     }
@@ -306,9 +303,9 @@ async function getQueuedColor() {
     const channelID = queuedChannel.pop();
     const name = queuedNames.pop();
     const cachedColor = cachedPKColors.get(name);
-    //console.log(apiDelay);
+    // console.log(apiDelay);
     if (cachedColor === undefined) {
-        //console.log(messageID, channelID, name);
+        // console.log(messageID, channelID, name);
         if (queueBuffer.indexOf(name) === -1) {
             queueBuffer.push(name);
             await pkRecordMessageMemberColorRateLimited(messageID, name, channelID);
@@ -337,10 +334,10 @@ async function updateMessageDelayed(m_id: string, ch_id: string, delay: number =
 }
 
 async function pkRecordMessageMemberColorRateLimited(messageID: string, username: string, channelID?: string) {
-    //cachedPKColors.set(username,settings.store.defaultColor)
+    // cachedPKColors.set(username,settings.store.defaultColor)
 
 
-    /*{
+    /* {
         apiDelay += apiDelayStep;
         await sleep(apiDelay);
         apiDelay -= apiDelayStep;
@@ -352,8 +349,8 @@ async function pkRecordMessageMemberColorRateLimited(messageID: string, username
     }
 
     if (message !== undefined) {
-        const member: pkMember = message.member;
-        var color = member.color;
+        const { member } = message;
+        var { color } = member;
 
         if (settings.store.generateRandomColors && color === null) {
             color = generateColorsFromID(member);
@@ -366,9 +363,9 @@ async function pkRecordMessageMemberColorRateLimited(messageID: string, username
     else { console.error("Could not Find PK Message"); }
 
     queueBuffer.splice(queueBuffer.indexOf[username], 1);
-    //console.log(queuedNames);
+    // console.log(queuedNames);
     return;
-    //updateMessage(channelID,messageID)
+    // updateMessage(channelID,messageID)
 }
 
 function adjustColor(color: string, saturation: number = -1, minL: number = settings.store.minLightness, maxL: number = settings.store.maxLightness) {
@@ -392,14 +389,14 @@ function hslToHex(h, s, l) {
     const f = n => {
         const k = (n + h / 30) % 12;
         const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
-        return Math.round(255 * color).toString(16).padStart(2, '0');   // convert to Hex and prefix "0" if needed
+        return Math.round(255 * color).toString(16).padStart(2, "0"); // convert to Hex and prefix "0" if needed
     };
     return `${f(0)}${f(8)}${f(4)}`;
 }
 
 // what a coincidence that pk member IDs are 6 letters long
 function generateColorsFromID(member: pkMember) {
-    const id = member.id;
+    const { id } = member;
     var color = "";
     for (let i = 0; i < id.length; i++) {
         var c = id.charAt(i);
@@ -407,7 +404,7 @@ function generateColorsFromID(member: pkMember) {
         const hexxabet = "0123456789abcdeffedcba9876";
         c = hexxabet.charAt(alphabet.indexOf(c));
 
-        color.padEnd(6, "f");//just in case
+        color.padEnd(6, "f");// just in case
         color += c;
     }
     return adjustColor(color, settings.store.idSaturation);
