@@ -62,14 +62,14 @@ pnpm install -g pkapi.js
     2. Put the zip in the userplugins folder created in step 1
     3. Right click and extract the zip
         - This should create a new folder, if it does not, create one and drag the unzipped files into it
-2. Build Vencord
+2. Build Vencord<br>
    in the same terminal window from step 1,
    run the following command
    ```
    pnpm build
    ```
    This can take some time, wait for it to finish
-4. Inject 
+4. Inject the build<br>
    run
    ```
    pnpm inject
