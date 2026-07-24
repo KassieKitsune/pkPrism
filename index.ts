@@ -159,8 +159,22 @@ export const settings = definePluginSettings({
         type: OptionType.STRING,
         restartNeeded: true,
         multiline: true,
-        default: "🖳text => hexQuirk",
-        placeholder: "🖳text => hexQuirk"
+        default: "",
+        placeholder: `{
+    "🪘text": "builtInTypingQuirk",
+    "🍔text": {
+        "keyIn":"abcdefghijklmnopqrstuv",
+        "keyOut:"ABCDEFGHIJKLMNOPQRSTUV",
+        "func": "substitutionQuirk"
+    },
+    "☯text":  {
+        "args": [...],
+        "customFunction":"
+        // Javascript function that returns a string.
+        return input;
+        "
+    }
+}`
     },
 }, {
     idSaturation: {
