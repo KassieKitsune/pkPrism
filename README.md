@@ -35,7 +35,7 @@ use the example commands bellow if you don't know where to navigate to.
 **Mac** On your Desktop.<br>
 Inside you should find a folder called src, inside that folder should be a folder called userplugins.
 
-7.skip to step 3. **Keep your terminal open.**
+7. skip to step 3. **Keep your terminal open.**
 
 </details>
 
