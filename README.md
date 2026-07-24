@@ -120,24 +120,35 @@ No worries, we've got just the thing.
 Enable ID Colors in the plugin settings, and anybody who does not have a color set will be assigned one based on their Pluralkit member ID.
 
 #### Rich Presence Fronter
-Tired of people asking who's fronting? <br>Just turn on Rich Presence to broadcast it on your profile. <br>
-Available in standard<br>
-![StandardRPC](https://github.com/KassieKitsune/pkPrism/blob/master/images/Eve-rich-standard.png) <br>
-Covert<br>
-![CovertRPC](https://github.com/KassieKitsune/pkPrism/blob/master/images/Avy-rich-covert.png)<br>
-Or even custom styles<br>
-![CustomRPC](https://github.com/KassieKitsune/pkPrism/blob/master/images/JY-rich-custom.png)<br>
+
+<details>
+Tired of people asking who's fronting? <p>Through Discord Rich Presence, pkPrism can share that info! <br>
+Available in standard, covert, and custom styles<p>
+
+![StandardRPC](https://github.com/KassieKitsune/pkPrism/blob/master/images/Eve-rich-standard.png)
+![CovertRPC](https://github.com/KassieKitsune/pkPrism/blob/master/images/Avy-rich-covert.png)
+![CustomRPC](https://github.com/KassieKitsune/pkPrism/blob/master/images/JY-rich-custom.png)
 
 > **_A NOTE ON PRIVACY:_** *We know that not every system is out to everybody they know on Discord - or has any need to show fronters-. As such Rich Presence is off by default. Even when on, it abides by your Activity Privacy settings as configured in your regular Discord settings and would not show itself to anyone who would not otherwise be able to see what game you're playing or what song you're listening to*
+</details>
+
+#### Typing Quirks
+
+<details>
+Fans of Homosuck know what we're talking about here, pkPrism provides the tools for completely customizable and automated typing quirks for those that need them, including:
+
+![quirks](https://github.com/KassieKitsune/pkPrism/blob/master/images/Radio-Titor-quirks.png)<br>
+(Wiki section coming soon)
+</details>
 
 > **_NOTE:_** pkPrism is still under development, and new features are on the way, check for updates as they come!
 ___
 
 ### Limitations & Known Issues
 1. Member colours aren't updated when changed.
-    - Click on any message belonging to that to update it manually. 
+    - Click on any message belonging to a specific member to update it manually. 
 2. Incompatible with the official IrcColors plugin
-    - Both plugins patch the info in the same fields in the same way. As of right now this will cause them to conflict with one another.(And tbh we referenced the source code of that plugin heavily
+    - Both plugins patch the info in the same fields in the same way. As of right now this will cause them to conflict with one another.(And tbh we referenced the source code of that plugin heavily)
 ___
 
 ### Why isn't this an official plugin?
