@@ -130,6 +130,7 @@ Available in standard, covert, and custom styles<p>
 ![CustomRPC](https://github.com/KassieKitsune/pkPrism/blob/master/images/JY-rich-custom.png)
 
 > **_A NOTE ON PRIVACY:_** *We know that not every system is out to everybody they know on Discord - or has any need to show fronters-. As such Rich Presence is off by default. Even when on, it abides by your Activity Privacy settings as configured in your regular Discord settings and would not show itself to anyone who would not otherwise be able to see what game you're playing or what song you're listening to*
+> **_IgnoreActivities_** *If games are overriding fronter info in Rich Presence, you can use the built in IgnoreActivities plugin on whitelist mode and paste PluralKit's app ID into it (You can get the ID by opening the PK bot's profile and going to the ... menu in the top right*
 </details>
 
 #### Typing Quirks
