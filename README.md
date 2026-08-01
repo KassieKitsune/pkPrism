@@ -35,7 +35,7 @@ use the example commands bellow if you don't know where to navigate to.
 **Mac** On your Desktop.<br>
 Inside you should find a folder called src, inside that folder should be a folder called userplugins.
 
-7.skip to step 3. **Keep your terminal open.**
+7. skip to step 3. **Keep your terminal open.**
 
 </details>
 
@@ -62,14 +62,14 @@ pnpm install -g pkapi.js
     2. Put the zip in the userplugins folder created in step 1
     3. Right click and extract the zip
         - This should create a new folder, if it does not, create one and drag the unzipped files into it
-2. Build Vencord
+2. Build Vencord<br>
    in the same terminal window from step 1,
    run the following command
    ```
    pnpm build
    ```
    This can take some time, wait for it to finish
-4. Inject 
+4. Inject the build<br>
    run
    ```
    pnpm inject
@@ -130,6 +130,8 @@ Available in standard, covert, and custom styles<p>
 ![CustomRPC](https://github.com/KassieKitsune/pkPrism/blob/master/images/JY-rich-custom.png)
 
 > **_A NOTE ON PRIVACY:_** *We know that not every system is out to everybody they know on Discord - or has any need to show fronters-. As such Rich Presence is off by default. Even when on, it abides by your Activity Privacy settings as configured in your regular Discord settings and would not show itself to anyone who would not otherwise be able to see what game you're playing or what song you're listening to*
+
+> **_IgnoreActivities_** *If games are overriding fronter info in Rich Presence, you can use the built in IgnoreActivities plugin on whitelist mode and paste PluralKit's app ID into it (You can get the ID by opening the PK bot's profile and going to the ... menu in the top right*
 </details>
 
 #### Typing Quirks
