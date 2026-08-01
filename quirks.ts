@@ -2,6 +2,7 @@ import { parse } from "path";
 import { settings } from ".";
 import { membersByProxy, proxiesByMember, storedSystem } from "./SystemStore";
 import { ProxyTag, Switch, System, Member as pkMember } from "pkapi.js";
+import { capitalize, forEach } from "lodash";
 
 export var currentQuirk: string;
 export var quirkMap = new Map();
@@ -55,51 +56,93 @@ export const func = {
             result += trimput.charCodeAt(i).toString(base) + " ";
         }
         return result;
+    },
+
+    wrapQuirk(input: string, a: string, b: string, sep: string = "", sep2: string = "", args: any[]) {
+        var begin: string = args[0];
+        var end: string = args[1];
+        return begin + input + end;
     }
-}
+};
 
 export const Quirks = {
-    hexQuirk: {
-        keyIn: "",
-        keyOut: "",
-        keySepOut: ",",
-        translate: true,
-        func: func.numericEncodingQuirk
-    },
-    capsQuirk: {
+    karkat: {
         keyIn: "abcdefghijklmnopqrstuvwxyz",
         keyOut: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
         translate: false,
         func: func.substitutionQuirk
     },
-    lowerQuirk: {
-        keyOut: "abcdefghijklmnopqrstuvwxyz",
-        keyIn: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-        translate: false,
+    terezi: {
+        keyIn: "aAbcdeEfghiIjklmnopqrstuvwxyz",
+        keyOut: "44BCD33FGH11JKLMNOPQRSTUVWXYZ",
+        translate: true,
         func: func.substitutionQuirk
     },
-    nepQuirk: {
-        keyIn: "ee|EE",
+    tavros: {
+        keyIn: "",
+        keyOut: "",
+        translate: true,
+        func: (input: string, keyIn: string, keyOut: string, keySepIn: string, keySepOut: string) => {
+            const words = input.split(" ");
+            var output: string = "";
+            words.forEach((word: string) => {
+                const L: string = word.charAt(0).toLowerCase();
+                const trimmed: string = word.substring(1).toUpperCase();
+                output = output + L + trimmed + " ";
+            });
+            return output.trim();
+        }
+    },
+    aradia: {
+        keyIn: "oO",
+        keyOut: "00",
+        translate: true,
+        func: (input: string, keyIn: string, keyOut: string, keySepIn: string, keySepOut: string) => {
+            return func.substitutionQuirk(input, keyIn, keyOut, keySepIn, keySepOut).replaceAll(/\p{P}/gu, "");
+        }
+    },
+    sollux: {
+        keyIn: "i|I|to|too|To|Too|TO|TWO|s|S",
         keySepIn: "|",
-        keyOut: "33|33",
+        keyOut: "ii|II|two|two|Two|Two|TWO|TWO|2|2",
+        keySepOut: "|",
+        translate: true,
+        func: func.serialSubstitutionQuirk
+    },
+    nepeta: {
+        keyIn: "ee|EE|for|For|FOR|per|Per|PER",
+        keySepIn: "|",
+        keyOut: "33|33|fur|Fur|FUR|purr|Purr|PURR",
         keySepOut: "|",
         translate: false,
         func: (input: string, keyIn: string, keyOut: string, keySepIn: string, keySepOut: string) => {
             return ":33 < " + func.substitutionQuirk(input, keyIn, keyOut, keySepIn, keySepOut);
         }
     },
-    radioQuirk: {
+    kanaya: {
         keyIn: "",
-        keySepIn: "",
         keyOut: "",
-        keySepOut: "",
-        translate: false,
-        func: (input: string) => {
-            const options = ["~/bzzt~ ", "~/krrk~ ", "~//!~ "];
-            return "~∿/" + input.trim() + "/∿~";
+        translate: true,
+        func: (input: string, keyIn: string, keyOut: string, keySepIn: string, keySepOut: string) => {
+            const words = input.split(" ");
+            var output: string = "";
+            words.forEach((word: string) => {
+                const L: string = word.charAt(0).toUpperCase();
+                const trimmed: string = word.substring(1).toLowerCase();
+                output = output + L + trimmed + " ";
+            });
+            return output.trim();
         }
     },
-    altQuirk: {
+    vriska: { // this is evil
+        keyIn: "!|?|b|B|ate|Ate|ATE|ait|Ait|AIT|aight|Aight|AIGHT|eight|Eight|EIGHT",
+        keySepIn: "|",
+        keyOut: "!!!!!!!!|????????|8|8|8|8|8|8|8|8|8|8|8|8|8|8",
+        keySepOut: "|",
+        translate: true,
+        func: func.serialSubstitutionQuirk
+    },
+    gamzee: {
         keyIn: "",
         keyOut: "",
         keySepOut: ",",
@@ -115,15 +158,43 @@ export const Quirks = {
             }
             return result;
         }
+    },
+    equius: {
+        keyIn: "ool|Ool|OOL|loo|Loo|LOO",
+        keySepIn: "|",
+        keyOut: "001|001|001|100|100|100",
+        keySepOut: "|",
+        translate: false,
+        func: (input: string, keyIn: string, keyOut: string, keySepIn: string, keySepOut: string) => {
+            return "D--> " + func.substitutionQuirk(input, keyIn, keyOut, keySepIn, keySepOut);
+        }
+    },
+    eridan: {
+        keyIn: "w|W|v|V|FOR|ing|ING|PER",
+        keySepIn: "|",
+        keyOut: "ww|WW|vv|VV|in|IN|Purr|PURR",
+        keySepOut: "|",
+        translate: false,
+        func: (input: string, keyIn: string, keyOut: string, keySepIn: string, keySepOut: string) => {
+            return func.serialSubstitutionQuirk(input, keyIn, keyOut, keySepIn, keySepOut).replaceAll(/\p{P}/gu, "").toLowerCase();
+        }
+    },
+    feferi: {
+        keyIn: "h|H|E",
+        keySepIn: "|",
+        keyOut: ")(|)(|-E|38)",
+        keySepOut: "|",
+        translate: true,
+        func: func.substitutionQuirk
     }
 };
 
 export async function populateQuirks() {
-    const rawJSON = settings.store.typingQuirkJson
-    const flatJSON = rawJSON.replace(/[\r\n\t\f\v]/g, "")
+    const rawJSON = settings.store.typingQuirkJson;
+    const flatJSON = rawJSON.replace(/[\r\n\t\f\v]/g, "");
     const parsedJSON = JSON.parse(flatJSON);
-    console.log(rawJSON)
-    console.log(flatJSON)
+    console.log(rawJSON);
+    console.log(flatJSON);
     console.log(parsedJSON);
     for (let key in parsedJSON) {
         const quirk: TypingQuirk = { keyIn: "", keyOut: "", translate: true, func: func.substitutionQuirk };
@@ -146,17 +217,20 @@ export async function populateQuirks() {
                     quirk[k] = quirkJSON[k];
                 }
             }
-            console.log(applyQuirk("this is a test", quirk));
+            console.log(applyQuirk("the quick brown fox jumps over the lazy dog! :)", quirk));
             quirkMap.set(key, quirk);
         }
         else if (keyType === "string") {
             if (quirkJSON in Quirks) {
-                console.log(applyQuirk("this is a test", Quirks[quirkJSON]));
+                console.log(applyQuirk("the quick brown fox jumps over the lazy dog! :)", Quirks[quirkJSON]));
                 quirkMap.set(key, Quirks[quirkJSON]);
             }
         }
     }
-    console.log(quirkMap)
+    for (let key in Quirks) {
+        console.log(applyQuirk(key + ": the quick brown fox jumps over the lazy dog! :)", Quirks[key]));
+    }
+    console.log(quirkMap);
 }
 /*export async function populateQuirks(){
     var quirkStrSplit = settings.store.typingQuirkJson.split("\n")
@@ -196,7 +270,7 @@ export async function quirkifyText(str: string) {
     quirkMap.forEach((quirk, proxy) => {
         var proxySplit = proxy.split("text");
         if (str.startsWith(proxySplit[0]) && str.endsWith(proxySplit[1])) {
-            console.log(proxy, ":", quirk)
+            console.log(proxy, ":", quirk);
             if (settings.store.typingQuirks === "TQlatch") { autoQuirk = proxy; }
             quirky = proxySplit[0] + applyQuirk(str.replace(RegExp("^" + proxySplit[0]), "").replace(RegExp(proxySplit[1] + "$"), ""), quirkMap.get(proxy)) + proxySplit[1];
             console.log(applyQuirk(str, quirkMap.get(proxy)));
@@ -205,7 +279,7 @@ export async function quirkifyText(str: string) {
 
     if (settings.store.typingQuirks === "TQfront") {
         const firstFronter: string = storedSystem.fronters?.members?.keys().next().value;
-        console.log(firstFronter)
+        console.log(firstFronter);
         const fronterProxy: string = proxiesByMember.get(firstFronter);
         autoQuirk = quirkMap.get(fronterProxy);
     }
@@ -216,7 +290,7 @@ export async function quirkifyText(str: string) {
 }
 
 export function applyQuirk(str: string, quirk: TypingQuirk) {
-    if (quirk === null || quirk === undefined) { return str }
+    if (quirk === null || quirk === undefined) { return str; }
 
     var output = quirk.func(str, quirk.keyIn, quirk.keyOut, quirk.keySepIn, quirk.keySepOut, quirk.args);
     if (quirk.translate) { output = output + " \n> " + str; }
