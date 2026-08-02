@@ -1,5 +1,5 @@
-# pkPrism
-Loosely inspired by [Pluralchum](https://github.com/estroBiologist/pluralchum), pkPrism is a Vencord plugin that displays PluralKit members' names in color according to their profile settings.
+# pkPrism : PluralKit Integrations for Vencord
+Loosely inspired by [Pluralchum](https://github.com/estroBiologist/pluralchum), pkPrism aims to provide useful QoL and customization integrations for PluralKit and Vencord.
 
 # Installation
 ## Option A: Build Vencord from Source 
@@ -10,7 +10,7 @@ This option is recommended if you have a comfortable relationship to your system
 <details>
 
 0. Open your terminal/commmand prompt. 
-    -On Windows we reccomend command prompt(cmd) over Powershell 
+    -On Windows we recommend command prompt(cmd) over Powershell 
         -if something goes wrong in this step anyways, follow these instructions with your command prompt open in Administrator Mode
 1. Download and install [Git](https://git-scm.com/install/)<br>
 2. Download and install [Node](https://nodejs.org/en/download/)<br>
