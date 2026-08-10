@@ -27,7 +27,8 @@ use the example commands bellow if you don't know where to navigate to.
     3. run ```pnpm install --frozen-lockfile```
     4. run ```mkdir src\userplugins```
 6. install [pkapi.js](https://github.com/greys-tools/pkapi.js#installation) as a dependency in your Vencord folder
-    - you can do this by running ```pnpm install pkapi.js``` in your terminal
+    1. run ```pnpm install pkapi.js```
+    2. then ```pnpm install -g pkapi.js```
 
 > If you used the suggested commands in substep 4, you should see a Vencord folder<br>
 **Windows** In your Documents Folder<br>
@@ -43,6 +44,7 @@ Inside you should find a folder called src, inside that folder should be a folde
 If you followed Step 1 correctly, you should be able to do this by simply copying & pasting this into your your terminal open in your Vencord folder. 
 ``` 
 pnpm install pkapi.js
+pnpm install -g pkapi.js
 ``` 
 #### Step 3. Follow the Instructions on [installing custom Vencord plugins](https://docs.vencord.dev/installing/custom-plugins/)
 <details>
