@@ -70,13 +70,15 @@ pnpm install -g pkapi.js
    ```
    pnpm build
    ```
-   This can take some time, wait for it to finish
-4. Inject the build<br>
+   This can take some time, wait for it to finish.
+3. Inject the build<br>
    run
    ```
    pnpm inject
    ```
-   Select the default options when prompted. Discord should close when this is done. pkPrism should be available in the plugins menu when you open Discord again.
+   Select the default options when prompted. Discord should close when this is done. pkPrism should be available in the plugins menu when you open Discord again.<br>
+
+4.  If you don't see pkPrism in the plugins list after opening discord, do step 3.2 and step 3.3 again.
 
 </details>
 </details>
