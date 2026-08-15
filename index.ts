@@ -312,12 +312,12 @@ export default definePlugin({
             }
             return "#" + adjustColor(cachedPKColors.get(username));
         }
-        if (settings.store.applyColorToAll === true) {
-            return "#" + adjustColor(colorString.replace("#", ""));
+        if (settings.store.applyColorToAll) {
+            const adjusted = "#" + adjustColor(colorString.slice(1, 7));
+            console.log(colorString);
+            return adjusted;
         }
-        else {
-            return colorString;
-        }
+        return colorString;
     }
 
 }
