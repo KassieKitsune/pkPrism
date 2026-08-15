@@ -5,10 +5,7 @@
  */
 
 import { settings } from ".";
-import { membersByProxy, proxiesByMember, storedSystem } from "./SystemStore";
-import { ProxyTag, Switch, System, Member as pkMember } from "pkapi.js";
-import { capitalize, forEach } from "lodash";
-
+import { proxiesByMember, storedSystem } from "./SystemStore";
 export var currentQuirk: string;
 export var quirkMap = new Map();
 
@@ -66,7 +63,10 @@ export const func = {
     wrapQuirk(input: string, a: string, b: string, sep: string = "", sep2: string = "", args: any[]) {
         var begin: string = args[0];
         var end: string = args[1];
-        return begin + input + end;
+        return begin + input.trim() + end;
+    },
+    translateTo(input: string, a: string, b: string, sep: string = "", sep2: string = "", args: any[]) {
+        var targetLanguage: string = args[0];
     }
 };
 
@@ -232,7 +232,7 @@ export async function populateQuirks() {
             }
         }
     }
-    for (let key in Quirks) {
+    for (const key in Quirks) {
         console.log(applyQuirk(key + ": the quick brown fox jumps over the lazy dog! :)", Quirks[key]));
     }
     console.log(quirkMap);
