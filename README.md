@@ -26,8 +26,9 @@ use the example commands bellow if you don't know where to navigate to.
     2. run ```cd Vencord```
     3. run ```pnpm install --frozen-lockfile```
     4. run ```mkdir src\userplugins```
-6. install [pkapi.js](https://github.com/greys-tools/pkapi.js#installation)
-    - you can do this by running ```pnpm install -g pkapi.js``` in your terminal
+6. install [pkapi.js](https://github.com/greys-tools/pkapi.js#installation) as a dependency in your Vencord folder
+    1. run ```pnpm install pkapi.js```
+    2. then ```pnpm install -g pkapi.js```
 
 > If you used the suggested commands in substep 4, you should see a Vencord folder<br>
 **Windows** In your Documents Folder<br>
@@ -40,8 +41,9 @@ Inside you should find a folder called src, inside that folder should be a folde
 </details>
 
 #### Step 2. Install [pkapi.js](https://github.com/greys-tools/pkapi.js#installation)<br>
-If you followed Step 1 correctly, you should be able to do this by simply copying & pasting this into your terminal. 
+If you followed Step 1 correctly, you should be able to do this by simply copying & pasting this into your your terminal open in your Vencord folder. 
 ``` 
+pnpm install pkapi.js
 pnpm install -g pkapi.js
 ``` 
 #### Step 3. Follow the Instructions on [installing custom Vencord plugins](https://docs.vencord.dev/installing/custom-plugins/)
@@ -68,13 +70,15 @@ pnpm install -g pkapi.js
    ```
    pnpm build
    ```
-   This can take some time, wait for it to finish
-4. Inject the build<br>
+   This can take some time, wait for it to finish.
+3. Inject the build<br>
    run
    ```
    pnpm inject
    ```
-   Select the default options when prompted. Discord should close when this is done. pkPrism should be available in the plugins menu when you open Discord again.
+   Select the default options when prompted. Discord should close when this is done. pkPrism should be available in the plugins menu when you open Discord again.<br>
+
+4.  If you don't see pkPrism in the plugins list after opening discord, do step 3.2 and step 3.3 again.
 
 </details>
 </details>

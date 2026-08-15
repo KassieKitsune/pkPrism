@@ -73,6 +73,12 @@ export const settings = definePluginSettings({
         type: OptionType.STRING,
         default: "#FF00FF"
     },
+    applyColorToAll: {
+        displayName: "Apply lightness adjustments to non-pk names",
+        description: "",
+        type: OptionType.BOOLEAN,
+        default: true
+    },
     generateRandomColors: {
         displayName: "ID Colors",
         description: "If true, generates colors based on a member's ID if no color is set",
@@ -165,12 +171,20 @@ export const settings = definePluginSettings({
     "🍔text": {
         "keyIn":"abcdefghijklmnopqrstuv",
         "keyOut:"ABCDEFGHIJKLMNOPQRSTUV",
+        "keySepIn":"",
+        "keySepOut":"",
         "func": "substitutionQuirk"
     },
     "☯text":  {
         "args": [...],
         "customFunction":"
-        // Javascript function that returns a string.
+        // Javascript function that takes (input:string,keyIn:string,keyOut:string,keySepIn:string,keySepOut,args:[any...]) as arguments
+        // keyIn and keyOut should be equal length strings where each character in keyOut replaces each occurance of the coresponding character in keyIn
+        // by default, each character in both strings is treated as a replacable unit however you can set keySepIn or keySepOut to define larger replacement boundaries (note that this can get messy)
+        // eg: if keySepIn and keySepOut are both "|", and keyIn and keyOut are "possible|for" and "pawible|fur" respectively, 
+        // then each instance of "possible" would be replaced with "pawsible", and each instance of for would be replaced with "fur"
+        // 
+        // The function must return a string;
         return input;
         "
     }
@@ -295,7 +309,11 @@ export default definePlugin({
             }
             return "#" + adjustColor(cachedPKColors.get(username));
         }
-
+        if (settings.store.applyColorToAll) {
+            const adjusted = "#" + adjustColor(colorString.slice(1, 7));
+            console.log(colorString);
+            return adjusted;
+        }
         return colorString;
     }
 
