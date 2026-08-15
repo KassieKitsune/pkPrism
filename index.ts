@@ -312,10 +312,12 @@ export default definePlugin({
             }
             return "#" + adjustColor(cachedPKColors.get(username));
         }
-        if (settings.store.applyColorToAll) {
-            return adjustColor(colorString);
+        if (settings.store.applyColorToAll === true) {
+            return "#" + adjustColor(colorString.replace("#", ""));
         }
-        return colorString;
+        else {
+            return colorString;
+        }
     }
 
 }
