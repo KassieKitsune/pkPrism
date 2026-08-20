@@ -177,10 +177,11 @@ ___
     - Click on any message belonging to a specific member to update it manually. 
 2. Incompatible with the official IrcColors plugin
     - Both plugins patch the info in the same fields in the same way. As of right now this will cause them to conflict with one another.(And tbh we referenced the source code of that plugin heavily)
+3. Typing Quirks break the official ClearURLplugin when enabled
 ___
 
 ### Why isn't this an official plugin?
-Similar plugins have been requested and submitted for the main Vencord fork at least three or four times by our count. Each time they were rejected on the basis of being too niche and their creators subsequently abandoned the projects.
+Similar plugins have been requested and submitted for the main Vencord fork at least three or four times by our count. Each time they were rejected on the basis of being too niche, discouraging development. Are we built different? Might be Hubris.
 <center>
 
 ## Testimonials
