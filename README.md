@@ -101,12 +101,34 @@ This option is recommended if you have not yet gotten to know your terminal and 
 - Open a terminal/command prompt and run ```pnpm install -g pkapi.js``` in your terminal/command line. This should be the only console command necessary for this method. If it does not work, go back to step 1.
 
 #### Step 5. Build & Install Vesktop in Veskforge
-- If Vesktop is open, Veskforge should be able to detect it automatically, otherwise you may need o locate your vesktop install and input it manually. If something goes wrong here, go back to step 4.
+- If Vesktop is open, Veskforge should be able to detect it automatically, otherwise you may need to locate your vesktop install and input it manually. If something goes wrong here, go back to step 4.
 
 > **_NOTE:_** <i>Vesktop essentially runs Vencord in a custom browser container. This has its own advantages (such as never needing to re-install Vencord) but it also has a few drawbacks. Most notably the way it handles voice and screenshare audio can prove problematic in some cases</i>s
 </details>
 
 > **Updating pkPrism** If are here to update your existing pkPrism install, You can do so by running and applying the build again in Veskforge. If that does not work, you may need to locate and delete the existing plugin folder within your Veskforge checkout location (which can be found in the "build" tab of Veskforge) OR open that folder in your terminal/command prompt and run `git pull`
+
+## Option C : Download a release and use Vesktop.
+This method is recommended if the above two methods do not work. Note that technically speaking the files provided in the release section are a complete build of Vencord and risk being out of date.
+
+<details>
+    
+### Step 1. Install and open [Vesktop](https://vesktop.dev/) 
+
+### Step 2. Download the latest [release](https://github.com/KassieKitsune/pkPrism/releases) and extract it anywhere you like.
+
+### Step 3. Point Vesktop to the release folder.
+1. Open your "User Settings" menu
+2. Click "Vesktop Settings"
+3. Scroll until you see "Developer Options"
+4. Click "Open Developer Settings"
+5. Click "Change" Under "Vencord Location"
+6. Select the folder you extracted the release from in step 2.
+
+</details>
+
+## Option D : Install [Pluralcord](https://github.com/KassieKitsune/PluralcordInstaller/releases/)
+Pluralcord is our fork of Vencord with pkPrism and its dependencies built in. Along with it is a modified version of the Vencord Installer that you may already be familiar with. 
 ___
 
 ### Features
@@ -158,7 +180,7 @@ ___
 ___
 
 ### Why isn't this an official plugin?
-Similar plugins have been requested and submitted for the main Vencord fork at least three or four times by our count. Each time they were rejected on the basis of being too niche and their creators subsequently abandonned the projects.
+Similar plugins have been requested and submitted for the main Vencord fork at least three or four times by our count. Each time they were rejected on the basis of being too niche and their creators subsequently abandoned the projects.
 <center>
 
 ## Testimonials
